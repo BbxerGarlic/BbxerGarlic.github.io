@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Figma OAuth 回调</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .code-display {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            word-wrap: break-word; /* 防止过长的 code 溢出 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Figma OAuth 授权返回</h1>
+        <p>请复制以下代码到 Unity 的 Figma importer 窗口:</p>
+
+        <div>
+            <strong>Client Code:</strong>
+            <div id="clientCode" class="code-display"></div>
+        </div>
+
+        <div>
+            <strong>State:</strong>
+            <div id="state" class="code-display"></div>
+        </div>
+    </div>
+
+    <script>
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        var clientCode = getParameterByName('code');
+        var stateValue = getParameterByName('state');
+
+        document.getElementById('clientCode').innerText = clientCode ? clientCode : '未找到 Client Code.';
+        document.getElementById('state').innerText = stateValue ? stateValue : '未找到 State.';
+    </script>
+</body>
+</html>
